@@ -1,0 +1,25 @@
+- hosts: all
+  become: true
+  
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start dan enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Allow Nginx melalui UFW (optional)
+      ufw:
+        rule: allow
+        name: 'Nginx Full'
+      ignore_errors: yes
